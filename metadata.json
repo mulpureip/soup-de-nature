@@ -1,0 +1,6 @@
+{
+  "name": "천연 수제비누 브랜드",
+  "description": "자연이 만든 가장 순한 피부 습관, 천연 수제비누 브랜드 소개 및 피부 진단 테스트 홈페이지",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

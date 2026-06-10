@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Common Helpers
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation Blueprint for Contact Message
+    function isValidContact(data) {
+      return data.keys().hasAll(['id', 'name', 'phone', 'email', 'content', 'createdAt'])
+        && data.keys().size() == 6
+        && data.id is string && data.id.size() >= 1 && data.id.size() <= 128
+        && data.name is string && data.name.size() >= 1 && data.name.size() <= 100
+        && data.phone is string && data.phone.size() >= 5 && data.phone.size() <= 30
+        && data.email is string && data.email.size() >= 5 && data.email.size() <= 100
+        && data.content is string && data.content.size() >= 1 && data.content.size() <= 5000
+        && data.createdAt is string && data.createdAt.size() <= 100;
+    }
+
+    // Validation Blueprint for Customer Review
+    function isValidReview(data) {
+      return data.keys().hasAll(['id', 'author', 'rating', 'skinType', 'product', 'content', 'beforeText', 'afterText', 'date'])
+        && data.keys().size() == 9
+        && data.id is string && data.id.size() >= 1 && data.id.size() <= 128
+        && data.author is string && data.author.size() >= 1 && data.author.size() <= 100
+        && data.rating is int && data.rating >= 1 && data.rating <= 5
+        && data.skinType is string && data.skinType.size() >= 1 && data.skinType.size() <= 100
+        && data.product is string && data.product.size() >= 1 && data.product.size() <= 100
+        && data.content is string && data.content.size() >= 1 && data.content.size() <= 5000
+        && data.beforeText is string && data.beforeText.size() <= 500
+        && data.afterText is string && data.afterText.size() <= 500
+        && data.date is string && data.date.size() <= 100;
+    }
+
+    // Contacts collection rules
+    match /contacts/{contactId} {
+      allow create: if isValidId(contactId) && isValidContact(incoming());
+      // Read/Update/Delete is blocked on client-side for public users to protect privacy
+      allow read, update, delete: if false;
+    }
+
+    // Reviews collection rules
+    match /reviews/{reviewId} {
+      allow read: if true; // Public reviews can be seen by all visitors
+      allow create: if isValidId(reviewId) && isValidReview(incoming());
+      allow update, delete: if false; // Reviews are immutable once posted on client-side
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "Contact": {
+      "title": "Contact Inquiry",
+      "description": "Customer inquiry submitted via the contact form",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique ID of the contact message" },
+        "name": { "type": "string", "description": "Name of the inquirer" },
+        "phone": { "type": "string", "description": "Phone number of the inquirer" },
+        "email": { "type": "string", "description": "Email of the inquirer" },
+        "content": { "type": "string", "description": "Inquiry content" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Submission timestamp" }
+      },
+      "required": ["id", "name", "phone", "email", "content", "createdAt"]
+    },
+    "Review": {
+      "title": "Customer Review",
+      "description": "User submitted product review and skin transition story",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique ID of the review" },
+        "author": { "type": "string", "description": "Name of the reviewer" },
+        "rating": { "type": "integer", "description": "Star rating (1 to 5)" },
+        "skinType": { "type": "string", "description": "Reviewer's skin type" },
+        "product": { "type": "string", "description": "Product purchased on recommendation" },
+        "content": { "type": "string", "description": "Written testimonial" },
+        "beforeText": { "type": "string", "description": "Skin state before using the soap" },
+        "afterText": { "type": "string", "description": "Skin state after using the soap" },
+        "date": { "type": "string", "description": "Review date" }
+      },
+      "required": ["id", "author", "rating", "skinType", "product", "content", "beforeText", "afterText", "date"]
+    }
+  },
+  "firestore": {
+    "/contacts/{contactId}": {
+      "schema": "Contact",
+      "description": "Submitted customer counseling requests and messages"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "User created customer reviews and feedback"
+    }
+  }
+}

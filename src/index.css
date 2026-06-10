@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Noto+Serif+KR:wght@200..900&family=Inter:wght@100..900&family=Nanum+Myeongjo:wght@400;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-sage-light: #F4F6F2;
+  --color-sage: #A7B89A;
+  --color-sage-hover: #96A789;
+  --color-sage-dark: #6C7D5D;
+  --color-cream-light: #FAF8F5;
+  --color-cream: #F7F2EA;
+  --color-cream-dark: #E2D9C8;
+  --color-wood: #8B6E54;
+  --color-wood-dark: #5C4633;
+  --color-wood-light: #BCA38A;
+  
+  --font-sans: "Inter", "Noto Sans KR", sans-serif;
+  --font-serif: "Playfair Display", "Nanum Myeongjo", serif;
+  --font-noto-serif: "Noto Serif KR", serif;
+}
+
+/* Custom fade scrollbar and general tweaks */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream-light);
+  color: #2D2D2D;
+  font-family: var(--font-sans);
+}
+
+.serif-title {
+  font-family: var(--font-serif);
+}
+
+.noto-serif {
+  font-family: var(--font-noto-serif);
+}
+
+::selection {
+  background-color: var(--color-sage);
+  color: white;
+}
+
+/* Custom scrollbar for beautiful premium UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage-dark);
+}
+
